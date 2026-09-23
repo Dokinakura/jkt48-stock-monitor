@@ -78,11 +78,10 @@ if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
 REFRESH_INTERVAL = 60  # seconds (dinaikkan dari 30s untuk hemat kuota proxy)
 NOTIFY_DECREASE_MIN = 1  # kirim Telegram utk stok berkurang bila selisih >= nilai ini (semua perubahan tetap dicatat)
 DISCOVERY_INTERVAL = 10  # Check for new exclusives every N iterations (~5 menit)
-CHANGE_LOG_FILE = "/mnt/user-data/outputs/change_log.json"
-PREVIOUS_DATA_FILE = "/mnt/user-data/outputs/previous_data.json"
-CONFIG_FILE = "/mnt/user-data/outputs/monitor_config.json"
-COOKIE_FILE = "/mnt/user-data/outputs/cf_cookie.json"
-SUMMARY_CACHE_FILE = "/mnt/user-data/outputs/summary_cache.json"
+CHANGE_LOG_FILE = "change_log.json"
+CONFIG_FILE = "monitor_config.json"
+DYNAMIC_ENDPOINTS_FILE = "dynamic_endpoints.json"
+KNOWN_EXCLUSIVES_FILE = "known_exclusives.json"
 
 CATEGORY_DISPLAY = {
     "TWO_SHOT":          "2-Shot",

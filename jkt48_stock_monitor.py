@@ -119,10 +119,10 @@ st.markdown("""
 # Semua event dikelola otomatis oleh exclusive_discovery — tidak ada hardcode
 
 # File paths for background worker
-CHANGE_LOG_FILE = "/mnt/user-data/outputs/change_log.json"
-CONFIG_FILE = "/mnt/user-data/outputs/monitor_config.json"
-DYNAMIC_ENDPOINTS_FILE = "/mnt/user-data/outputs/dynamic_endpoints.json"
-KNOWN_EXCLUSIVES_FILE = "/mnt/user-data/outputs/known_exclusives.json"
+CHANGE_LOG_FILE = "change_log.json"
+CONFIG_FILE = "monitor_config.json"
+DYNAMIC_ENDPOINTS_FILE = "dynamic_endpoints.json"
+KNOWN_EXCLUSIVES_FILE = "known_exclusives.json"
 
 @st.cache_data(ttl=30)
 def load_change_log_from_file():
