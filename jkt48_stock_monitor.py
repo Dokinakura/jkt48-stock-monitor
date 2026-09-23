@@ -622,9 +622,13 @@ with st.sidebar:
             if name not in all_events:
                 all_events.append(name)
     
-    # Make sure selected event exists in options
+   # Make sure selected event exists in options
+if all_events:
     if st.session_state.selected_event not in all_events:
         st.session_state.selected_event = all_events[0]
+else:
+    st.warning("⚠️ Data event sedang dimuat atau belum tersedia dari background worker.")
+    st.stop()
     
     selected_event = st.selectbox(
         "Event",
