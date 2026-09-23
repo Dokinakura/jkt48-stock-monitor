@@ -12,6 +12,7 @@ import json
 import time
 from datetime import datetime, timezone, timedelta
 import os
+import subprocess
 from pathlib import Path
 import pytz
 import locale
@@ -24,7 +25,30 @@ import proxy_pool
 import cf_solver
 from jkt48_schema import to_bonus_url, normalize_bonus
 from curl_cffi.requests import AsyncSession
+def auto_git_push():
+    """Fungsi untuk otomatis push file JSON ke GitHub dari Railway"""
+    github_token = os.getenv("GITHUB_TOKEN")
+    github_repo = os.getenv("GITHUB_REPO") # Dokinakura/jkt48-stock-monitor
+    
+    if not github_token or not github_repo:
+        print("⚠️ GITHUB_TOKEN atau GITHUB_REPO belum di-set di Railway Variables.")
+        return
 
+    try:
+        subprocess.run(["git", "config", "user.name", "Railway Worker"], check=True)
+        subprocess.run(["git", "config", "user.email", "railway@bot.com"], check=True)
+        subprocess.run(["git", "add", "change_log_backup.json"], check=True)
+        
+        status = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True)
+        if not status.stdout.strip():
+            return
+
+        subprocess.run(["git", "commit", "-m", "Auto-update stock data from Railway"], check=True)
+        remote_url = f"https://x-access-token:{github_token}@github.com/{github_repo}.git"
+        subprocess.run(["git", "push", remote_url, "HEAD:main"], check=True)
+        print("✅ Data stok berhasil di-push otomatis ke GitHub!")
+    except Exception as e:
+        print(f"❌ Gagal auto push ke GitHub: {e}")
 
 def _current_proxy_url():
     px = proxy_pool.requests_proxies()
@@ -241,6 +265,7 @@ def save_change_log(changes):
     try:
         with open(CHANGE_LOG_FILE, 'w') as f:
             json.dump(changes, f, indent=2, default=str)
+        auto_git_push()
     except Exception as e:
         print(f"Error saving change log: {e}")
 
